@@ -7,6 +7,8 @@ import org.example.backend.repository.BucketListRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,4 +27,8 @@ public class BucketListService {
         return bucketListRepository.save(newBucketListItem);
     }
 
+    public BucketListItem getBucketListItemById(String id) {
+        Optional<BucketListItem> bucketListItem = bucketListRepository.findById(id);
+        return bucketListItem.orElseThrow(() -> new NoSuchElementException("Bucket list item not found"));
+    }
 }
