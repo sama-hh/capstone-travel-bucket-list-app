@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,13 +33,15 @@ class BucketListControllerTest {
     private BucketListRepository bucketListRepository;
     @MockBean
     private IdService idService;
+    @Autowired
+    private BucketListController bucketListController;
 
     @Test
     @DirtiesContext
     void getAllBucketLists_shouldReturnAllBucketLists() throws Exception {
-        BucketListItem item1 = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
-        BucketListItem item2 = new BucketListItem("2", "Cape Town", "South Africa", "Not Visited");
-        List<BucketListItem> items = List.of(item1, item2);
+        BucketListItem bucketListItem1 = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        BucketListItem bucketListItem2 = new BucketListItem("2", "Cape Town", "South Africa", "Not Visited");
+        List<BucketListItem> items = List.of(bucketListItem1, bucketListItem2);
 
         when(bucketListRepository.findAll()).thenReturn(items);
 
@@ -64,10 +68,11 @@ class BucketListControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void createBucketListItem_shouldReturnCreatedBucketListItem() throws Exception {
-        BucketListItem item = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
         when(idService.randomId()).thenReturn("1");
-        when(bucketListRepository.save(item)).thenReturn(item);
+        when(bucketListRepository.save(bucketListItem)).thenReturn(bucketListItem);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/bucket-lists")
                         .content("""
@@ -84,4 +89,25 @@ class BucketListControllerTest {
                 .andExpect(jsonPath("$.name").value("London"));
 
     }
+
+    @Test
+    @DirtiesContext
+    void getBucketListItemById_shouldReturnBucketListItem() throws Exception {
+        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        when(bucketListRepository.findById("1")).thenReturn(Optional.of(bucketListItem));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/bucket-lists/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.name").value("London"));
+    }
+
+    @Test
+    @DirtiesContext
+    void getBucketListItemById_shouldReturnNoSuchElementException() throws Exception {
+        when(bucketListRepository.findById("2")).thenThrow(new NoSuchElementException("Bucket list item not found"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/bucket-lists/2"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Bucket list item not found"));
+    }
+
 }

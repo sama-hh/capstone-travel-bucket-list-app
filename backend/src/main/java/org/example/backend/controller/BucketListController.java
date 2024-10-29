@@ -24,5 +24,9 @@ public class BucketListController {
         return bucketListService.createBucketListItem(request.toModel());
     }
 
+    @GetMapping("/{id}")
+    public BucketListItem getBucketListItemById(@PathVariable String id) {
+        return bucketListService.getBucketListItemById(id);
+    }
 
 }
