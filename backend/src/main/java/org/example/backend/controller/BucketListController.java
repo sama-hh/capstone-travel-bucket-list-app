@@ -1,11 +1,10 @@
 package org.example.backend.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.backend.dto.CreateBucketListItemRequest;
 import org.example.backend.model.BucketListItem;
 import org.example.backend.service.BucketListService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +17,11 @@ public class BucketListController {
     @GetMapping
     public List<BucketListItem> getAllBucketLists() {
         return bucketListService.getAllBucketLists();
+    }
+
+    @PostMapping
+    public BucketListItem createBucketListItem(@RequestBody CreateBucketListItemRequest request) {
+        return bucketListService.createBucketListItem(request.toModel());
     }
 
 
