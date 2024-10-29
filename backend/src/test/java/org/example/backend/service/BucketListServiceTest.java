@@ -1,5 +1,6 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.UpdateBucketListItemRequest;
 import org.example.backend.model.BucketListItem;
 import org.example.backend.repository.BucketListRepository;
 import org.junit.jupiter.api.Test;
@@ -60,4 +61,28 @@ class BucketListServiceTest {
             service.getBucketListItemById("2");
         });
     }
+
+    @Test
+    public void updateBucketListItem_shouldUpdateBucketListItem() {
+        //GIVEN
+        BucketListItem bucketListItem = new BucketListItem("1","Berlin", "Germany", "Not Visited");
+        when(repository.findById("1")).thenReturn(Optional.of(bucketListItem));
+        UpdateBucketListItemRequest updatedBucketListItem = new UpdateBucketListItemRequest("Hamburg", "United Kingdom", "Not Visited");
+        //WHEN
+        service.updateBucketListItem("1", updatedBucketListItem);
+        //THEN
+        verify(repository, times(1)).save(new BucketListItem(bucketListItem.id(), updatedBucketListItem.name(), updatedBucketListItem.country(), updatedBucketListItem.status()));
+
+    }
+
+    @Test
+    public void updateBucketListItem_shouldThrowNoSuchElementException() {
+        // GIVEN
+        UpdateBucketListItemRequest updatedBucketListItem = new UpdateBucketListItemRequest("Hamburg", "United Kingdom", "Not Visited");
+        when(repository.findById("2")).thenReturn(Optional.empty());
+        // WHEN & THEN
+        assertThrows(NoSuchElementException.class, () -> service.updateBucketListItem("2", updatedBucketListItem));
+        verify(repository, never()).save(any(BucketListItem.class));
+    }
+
 }
