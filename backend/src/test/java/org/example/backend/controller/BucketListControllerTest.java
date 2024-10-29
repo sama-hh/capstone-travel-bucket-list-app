@@ -110,4 +110,31 @@ class BucketListControllerTest {
                 .andExpect(jsonPath("$.message").value("Bucket list item not found"));
     }
 
+    @Test
+    @DirtiesContext
+    void updateBucketListItem_shouldUpdateBucketListItem() throws Exception {
+        BucketListItem bucketListItem = new BucketListItem("1", "Hamburg", "Germany", "Not Visited");
+        String nameToUpdate = "Berlin";
+        BucketListItem updatedBucketListItem = new BucketListItem("1", nameToUpdate, "Germany", "Not Visited");
+
+        when(bucketListRepository.findById("1")).thenReturn(Optional.of(bucketListItem));
+        when(bucketListRepository.save(updatedBucketListItem)).thenReturn(updatedBucketListItem);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/bucket-lists/1")
+                    .content("""
+                            {
+                                "name": "Berlin",
+                                "country": "Germany",
+                                "status": "Not Visited"
+                            }
+                         """
+                     )
+                    .contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.name").value(nameToUpdate))
+                .andExpect(jsonPath("$.country").value("Germany"))
+                .andExpect(jsonPath("$.status").value("Not Visited"));
+    }
+
 }
