@@ -42,4 +42,13 @@ public class BucketListService {
         }
     }
 
+    public void deleteBucketListItem(String id) {
+        Optional<BucketListItem> bucketListItem = bucketListRepository.findById(id);
+
+        if (bucketListItem.isPresent()) {
+            bucketListRepository.deleteById(id);
+        } else {
+            throw new NoSuchElementException("Bucket list item not found");
+        }
+    }
 }

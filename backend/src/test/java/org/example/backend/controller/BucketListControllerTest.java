@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -121,20 +122,32 @@ class BucketListControllerTest {
         when(bucketListRepository.save(updatedBucketListItem)).thenReturn(updatedBucketListItem);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/bucket-lists/1")
-                    .content("""
-                            {
-                                "name": "Berlin",
-                                "country": "Germany",
-                                "status": "Not Visited"
-                            }
-                         """
-                     )
-                    .contentType("application/json"))
+                        .content("""
+                                   {
+                                       "name": "Berlin",
+                                       "country": "Germany",
+                                       "status": "Not Visited"
+                                   }
+                                """
+                        )
+                        .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value(nameToUpdate))
                 .andExpect(jsonPath("$.country").value("Germany"))
                 .andExpect(jsonPath("$.status").value("Not Visited"));
+    }
+
+    @Test
+    @DirtiesContext
+    void deleteBucketListItem() throws Exception {
+        BucketListItem bucketListItem = new BucketListItem("1", "Hamburg", "Germany", "Not Visited");
+
+        when(bucketListRepository.findById("1")).thenReturn(Optional.of(bucketListItem));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/bucket-lists/1"))
+                .andExpect(status().isOk());
+        verify(bucketListRepository).deleteById("1");
     }
 
 }
