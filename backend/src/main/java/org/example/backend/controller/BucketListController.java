@@ -35,4 +35,8 @@ public class BucketListController {
         return bucketListService.updateBucketListItem(id, request);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteBucketListItem(@PathVariable String id){
+        bucketListService.deleteBucketListItem(id);
+    }
 }

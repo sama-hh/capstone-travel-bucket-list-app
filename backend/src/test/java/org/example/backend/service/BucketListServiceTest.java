@@ -85,4 +85,23 @@ class BucketListServiceTest {
         verify(repository, never()).save(any(BucketListItem.class));
     }
 
+    @Test
+    public void deleteBucketListItem_shouldDeleteBucketListItem() {
+        //GIVEN
+        BucketListItem bucketListItem = new BucketListItem("1","Berlin", "Germany", "Not Visited");
+        when(repository.findById("1")).thenReturn(Optional.of(bucketListItem));
+        //WHEN
+        service.deleteBucketListItem("1");
+        //THEN
+        verify(repository, times(1)).deleteById(bucketListItem.id());
+    }
+
+    @Test
+    public void deleteBucketListItem_shouldThrowNoSuchElementException() {
+        // GIVEN
+        when(repository.findById("2")).thenReturn(Optional.empty());
+        // WHEN & THEN
+        assertThrows(NoSuchElementException.class, () -> service.deleteBucketListItem("2"));
+        verify(repository, never()).deleteById(anyString());
+    }
 }
