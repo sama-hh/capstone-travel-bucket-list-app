@@ -1,6 +1,7 @@
 package org.example.backend.controller;
 
 import org.example.backend.model.BucketListItem;
+import org.example.backend.model.BucketListItemStatus;
 import org.example.backend.repository.BucketListRepository;
 import org.example.backend.service.BucketListService;
 import org.example.backend.service.IdService;
@@ -28,20 +29,16 @@ class BucketListControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private BucketListService bucketListService;
     @MockBean
     private BucketListRepository bucketListRepository;
     @MockBean
     private IdService idService;
-    @Autowired
-    private BucketListController bucketListController;
 
     @Test
     @DirtiesContext
     void getAllBucketLists_shouldReturnAllBucketLists() throws Exception {
-        BucketListItem bucketListItem1 = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
-        BucketListItem bucketListItem2 = new BucketListItem("2", "Cape Town", "South Africa", "Not Visited");
+        BucketListItem bucketListItem1 = new BucketListItem("1", "London", "United Kingdom", BucketListItemStatus.NOT_VISITED);
+        BucketListItem bucketListItem2 = new BucketListItem("2", "Cape Town", "South Africa", BucketListItemStatus.NOT_VISITED);
         List<BucketListItem> items = List.of(bucketListItem1, bucketListItem2);
 
         when(bucketListRepository.findAll()).thenReturn(items);
@@ -55,13 +52,13 @@ class BucketListControllerTest {
                                         "id": "1",
                                         "name": "London",
                                         "country": "United Kingdom",
-                                        "status": "Not Visited"
+                                        "status": "NOT_VISITED"
                                     },
                                     {
                                         "id": "2",
                                         "name": "Cape Town",
                                         "country": "South Africa",
-                                        "status": "Not Visited"
+                                        "status": "NOT_VISITED"
                                     }
                                 ]
                                 """
@@ -71,7 +68,7 @@ class BucketListControllerTest {
     @Test
     @DirtiesContext
     void createBucketListItem_shouldReturnCreatedBucketListItem() throws Exception {
-        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", BucketListItemStatus.NOT_VISITED);
         when(idService.randomId()).thenReturn("1");
         when(bucketListRepository.save(bucketListItem)).thenReturn(bucketListItem);
 
@@ -81,7 +78,7 @@ class BucketListControllerTest {
                                         "id": "1",
                                         "name": "London",
                                         "country": "United Kingdom",
-                                        "status": "Not Visited"
+                                        "status": "NOT_VISITED"
                                     }
                                 """)
                         .contentType("application/json"))
@@ -94,7 +91,7 @@ class BucketListControllerTest {
     @Test
     @DirtiesContext
     void getBucketListItemById_shouldReturnBucketListItem() throws Exception {
-        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", BucketListItemStatus.NOT_VISITED);
         when(bucketListRepository.findById("1")).thenReturn(Optional.of(bucketListItem));
         mockMvc.perform(MockMvcRequestBuilders.get("/api/bucket-lists/1"))
                 .andExpect(status().isOk())
@@ -114,9 +111,9 @@ class BucketListControllerTest {
     @Test
     @DirtiesContext
     void updateBucketListItem_shouldUpdateBucketListItem() throws Exception {
-        BucketListItem bucketListItem = new BucketListItem("1", "Hamburg", "Germany", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "Hamburg", "Germany", BucketListItemStatus.NOT_VISITED);
         String nameToUpdate = "Berlin";
-        BucketListItem updatedBucketListItem = new BucketListItem("1", nameToUpdate, "Germany", "Not Visited");
+        BucketListItem updatedBucketListItem = new BucketListItem("1", nameToUpdate, "Germany", BucketListItemStatus.NOT_VISITED);
 
         when(bucketListRepository.findById("1")).thenReturn(Optional.of(bucketListItem));
         when(bucketListRepository.save(updatedBucketListItem)).thenReturn(updatedBucketListItem);
@@ -126,7 +123,7 @@ class BucketListControllerTest {
                                    {
                                        "name": "Berlin",
                                        "country": "Germany",
-                                       "status": "Not Visited"
+                                       "status": "NOT_VISITED"
                                    }
                                 """
                         )
@@ -135,13 +132,13 @@ class BucketListControllerTest {
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value(nameToUpdate))
                 .andExpect(jsonPath("$.country").value("Germany"))
-                .andExpect(jsonPath("$.status").value("Not Visited"));
+                .andExpect(jsonPath("$.status").value("NOT_VISITED"));
     }
 
     @Test
     @DirtiesContext
     void deleteBucketListItem() throws Exception {
-        BucketListItem bucketListItem = new BucketListItem("1", "Hamburg", "Germany", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "Hamburg", "Germany", BucketListItemStatus.NOT_VISITED);
 
         when(bucketListRepository.findById("1")).thenReturn(Optional.of(bucketListItem));
 

@@ -1,36 +1,41 @@
 #root {
-  margin: 0 auto;
-  text-align: center;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .header-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .header-container__nav {
-  display: flex;
+    display: flex;
 }
 
 .header-container__nav .navbar-nav {
-  align-items: center;
+    align-items: center;
 }
 
 .custom-container {
-  max-width: 90% !important;
+    max-width: 90% !important;
 }
 
 .navbar {
-  background-color: #003b95;
+    background-color: #003b95;
 }
 
 .primary-button {
-  background-color: #fff !important;
-  color: #003b95 !important;
+    background-color: #fff !important;
+    color: #003b95 !important;
 }
 
 .navbar .nav-link {
-  color: #fff !important;
-  padding: 0 !important;
+    color: #fff !important;
+}
+
+.bucket-list_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

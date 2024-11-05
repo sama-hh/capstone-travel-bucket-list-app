@@ -2,10 +2,9 @@ package org.example.backend.service;
 
 import org.example.backend.dto.UpdateBucketListItemRequest;
 import org.example.backend.model.BucketListItem;
+import org.example.backend.model.BucketListItemStatus;
 import org.example.backend.repository.BucketListRepository;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -30,7 +29,7 @@ class BucketListServiceTest {
     @Test
     void createBucketListItem() {
         //GIVEN
-        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", BucketListItemStatus.NOT_VISITED);
         when(idService.randomId()).thenReturn("1");
         //WHEN
         service.createBucketListItem(bucketListItem);
@@ -41,7 +40,7 @@ class BucketListServiceTest {
     @Test
     void getBucketListItemById_shouldReturnBucketListItem() {
         //GIVEN
-        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1", "London", "United Kingdom", BucketListItemStatus.NOT_VISITED);
         when(repository.findById("1")).thenReturn(Optional.of(bucketListItem));
         //WHEN
         BucketListItem result = service.getBucketListItemById("1");
@@ -65,9 +64,9 @@ class BucketListServiceTest {
     @Test
     public void updateBucketListItem_shouldUpdateBucketListItem() {
         //GIVEN
-        BucketListItem bucketListItem = new BucketListItem("1","Berlin", "Germany", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1","Berlin", "Germany", BucketListItemStatus.NOT_VISITED);
         when(repository.findById("1")).thenReturn(Optional.of(bucketListItem));
-        UpdateBucketListItemRequest updatedBucketListItem = new UpdateBucketListItemRequest("Hamburg", "United Kingdom", "Not Visited");
+        UpdateBucketListItemRequest updatedBucketListItem = new UpdateBucketListItemRequest("Hamburg", "United Kingdom", BucketListItemStatus.NOT_VISITED);
         //WHEN
         service.updateBucketListItem("1", updatedBucketListItem);
         //THEN
@@ -78,7 +77,7 @@ class BucketListServiceTest {
     @Test
     public void updateBucketListItem_shouldThrowNoSuchElementException() {
         // GIVEN
-        UpdateBucketListItemRequest updatedBucketListItem = new UpdateBucketListItemRequest("Hamburg", "United Kingdom", "Not Visited");
+        UpdateBucketListItemRequest updatedBucketListItem = new UpdateBucketListItemRequest("Hamburg", "United Kingdom", BucketListItemStatus.NOT_VISITED);
         when(repository.findById("2")).thenReturn(Optional.empty());
         // WHEN & THEN
         assertThrows(NoSuchElementException.class, () -> service.updateBucketListItem("2", updatedBucketListItem));
@@ -88,7 +87,7 @@ class BucketListServiceTest {
     @Test
     public void deleteBucketListItem_shouldDeleteBucketListItem() {
         //GIVEN
-        BucketListItem bucketListItem = new BucketListItem("1","Berlin", "Germany", "Not Visited");
+        BucketListItem bucketListItem = new BucketListItem("1","Berlin", "Germany", BucketListItemStatus.NOT_VISITED);
         when(repository.findById("1")).thenReturn(Optional.of(bucketListItem));
         //WHEN
         service.deleteBucketListItem("1");
