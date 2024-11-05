@@ -1,5 +1,7 @@
 package org.example.backend.dto;
 
 
-public record UpdateBucketListItemRequest(String name, String country, String status) {
+import org.example.backend.model.BucketListItemStatus;
+
+public record UpdateBucketListItemRequest(String name, String country, BucketListItemStatus status) {
 }

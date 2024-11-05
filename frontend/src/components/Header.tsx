@@ -14,7 +14,8 @@ const Header = () => {
                             {/*<img src={Logo} alt="" className="logo"/>*/}
                         </Navbar.Brand>
                         <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
+                            <Nav.Link as={Link} to="/dashboard">Home</Nav.Link>
+                            <Nav.Link as={Link} to="/bucket-list">Travel Wishlist</Nav.Link>
                         </Nav>
                     </div>
                     <div className="d-flex">

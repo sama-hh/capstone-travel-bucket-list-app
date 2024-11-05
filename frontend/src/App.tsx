@@ -3,6 +3,7 @@ import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
 import {Navigate, Route, Routes} from "react-router-dom";
 import Dashboard from "./pages/Dashboard.tsx";
+import BucketList from "./pages/BucketList.tsx";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
                     <Route path="/dashboard" element={<Dashboard/>}/>
+                    <Route path="/bucket-list" element={<BucketList/>}/>
                     <Route path="*" element={<h1>404 - Page Not Found</h1>} />
                 </Routes>
                 <Footer/>
