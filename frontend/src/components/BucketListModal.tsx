@@ -1,37 +1,27 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import axios, {AxiosError} from "axios";
-import {BucketListStatus, NewBucketListType} from "../types/BucketList.ts";
+import {
+    BucketListItemStatus,
+    defaultBucketListItem,
+    ListModalProps
+} from "../types/BucketList.ts";
 
-type ListModalProps = {
-    show: boolean,
-    handleClose: () => void,
-    setHasChanged: (value: (prev: boolean) => boolean) => void;
-}
-
-const ListModal = ({show, handleClose, setHasChanged}: ListModalProps) => {
-    const [name, setName] = useState("");
-    const [country, setCountry] = useState("");
-    const [status, setStatus] = useState<BucketListStatus>(BucketListStatus.NOT_VISITED);
-
+const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketListItem}: ListModalProps) => {
     const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setStatus(event.target.value as BucketListStatus);
+        setBucketListItem({...bucketListItem, status: event.target.value as BucketListItemStatus})
     };
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        const newBucketList: NewBucketListType = {
-            name: name,
-            country: country,
-            status: status
-        }
 
-        axios.post("/api/bucket-lists", newBucketList)
+        const apiUrl = bucketListItem.id ? `/api/bucket-lists/${bucketListItem.id}` : '/api/bucket-lists';
+        const apiMethod = bucketListItem.id ? 'put' : 'post';
+
+        axios[apiMethod](apiUrl, bucketListItem)
             .then(() => {
-                console.log(newBucketList);
-                setName("");
-                setCountry("");
-                setStatus(BucketListStatus.NOT_VISITED);
+                console.log(bucketListItem);
+                setBucketListItem(defaultBucketListItem);
                 setHasChanged((state: boolean) => !state);
             })
             .catch((error: AxiosError) => console.log(error));
@@ -51,8 +41,8 @@ const ListModal = ({show, handleClose, setHasChanged}: ListModalProps) => {
                         <Form.Control
                             required
                             type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={bucketListItem.name}
+                            onChange={(e) => setBucketListItem({...bucketListItem, name: e.target.value})}
                             autoFocus
                         />
                     </Form.Group>
@@ -61,8 +51,8 @@ const ListModal = ({show, handleClose, setHasChanged}: ListModalProps) => {
                         <Form.Control
                             required
                             type="text"
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
+                            value={bucketListItem.country}
+                            onChange={(e) => setBucketListItem({...bucketListItem, country: e.target.value})}
                         />
                     </Form.Group>
                     <div className="form-checkbox">
@@ -72,8 +62,8 @@ const ListModal = ({show, handleClose, setHasChanged}: ListModalProps) => {
                             id="not-visited"
                             label="Not visited"
                             name="group1"
-                            value={BucketListStatus.NOT_VISITED}
-                            checked={status === BucketListStatus.NOT_VISITED}
+                            value={BucketListItemStatus.NOT_VISITED}
+                            checked={bucketListItem.status === BucketListItemStatus.NOT_VISITED}
                             onChange={handleStatusChange}
                         />
                         <Form.Check
@@ -83,8 +73,8 @@ const ListModal = ({show, handleClose, setHasChanged}: ListModalProps) => {
                             id="visited"
                             label="Visited"
                             name="group1"
-                            value={BucketListStatus.VISITED}
-                            checked={status === BucketListStatus.VISITED}
+                            value={BucketListItemStatus.VISITED}
+                            checked={bucketListItem.status === BucketListItemStatus.VISITED}
                             onChange={handleStatusChange}
                         />
                     </div>

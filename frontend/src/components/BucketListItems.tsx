@@ -1,10 +1,17 @@
 import {Button, Card, Col, Row} from "react-bootstrap";
-import {BucketListStatus, BucketListType} from "../types/BucketList.ts";
+import {
+    BucketListItemsProps,
+    BucketListItemStatus,
+    BucketListItemType
+} from "../types/BucketList.ts";
 
-type BucketListItemsProps = {
-    bucketList: BucketListType[]
-}
-const BucketListItems = ({bucketList}: BucketListItemsProps) => {
+const BucketListItems = ({bucketList, setModalOpen, setBucketListItem}: BucketListItemsProps) => {
+
+    const handleEdit = (item: BucketListItemType) => {
+        setBucketListItem(item);
+        setModalOpen(prev => !prev);
+    }
+
     return (
         <Row className="mt-3">
             {bucketList.map((item) => (
@@ -16,18 +23,19 @@ const BucketListItems = ({bucketList}: BucketListItemsProps) => {
                             </Card.Title>
                             <Card.Subtitle className="mb-2 text-muted text-start">{item.country}</Card.Subtitle>
                             <Card.Text className="text-start">
-                                <span className={`badge ${item.status === BucketListStatus.VISITED ? 'bg-success' : 'bg-warning'}` }>
+                                <span
+                                    className={`badge ${item.status === BucketListItemStatus.VISITED ? 'bg-success' : 'bg-warning'}`}>
                                 {item.status}
                                 </span>
                             </Card.Text>
-                                <div className="d-flex justify-content-end gap-2">
-                                    <Button variant="primary" className="btn-sm">
-                                        Edit
-                                    </Button>
-                                    <Button variant="danger" className="btn-sm">
-                                        Remove
-                                    </Button>
-                                </div>
+                            <div className="d-flex justify-content-end gap-2">
+                                <Button variant="primary" className="btn-sm" onClick={() => handleEdit(item)}>
+                                    Edit
+                                </Button>
+                                <Button variant="danger" className="btn-sm">
+                                    Remove
+                                </Button>
+                            </div>
                         </Card.Body>
                     </Card>
                 </Col>
