@@ -22,6 +22,7 @@ export type BucketListItemsProps = {
     bucketList: BucketListItemType[],
     setModalOpen: (value: (prev: boolean) => boolean) => void;
     setBucketListItem: Dispatch<SetStateAction<BucketListItemType>>,
+    setHasChanged: (value: (prev: boolean) => boolean) => void;
 }
 
 export type ListModalProps = {

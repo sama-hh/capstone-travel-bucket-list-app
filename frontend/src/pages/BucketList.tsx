@@ -36,7 +36,7 @@ const BucketList = () => {
                     <Button onClick={() => setModalOpen(prev => !prev)}>Add</Button>
                 </div>
                 <BucketItemList bucketList={bucketList} setModalOpen={setModalOpen}
-                                setBucketListItem={setBucketListItem}/>
+                                setBucketListItem={setBucketListItem} setHasChanged={setHasChanged}/>
             </Container>
 
             <BucketListModal

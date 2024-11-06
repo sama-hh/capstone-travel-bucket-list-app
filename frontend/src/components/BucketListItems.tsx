@@ -4,12 +4,23 @@ import {
     BucketListItemStatus,
     BucketListItemType
 } from "../types/BucketList.ts";
+import axios, {AxiosError} from "axios";
 
-const BucketListItems = ({bucketList, setModalOpen, setBucketListItem}: BucketListItemsProps) => {
+const BucketListItems = ({bucketList, setModalOpen, setBucketListItem, setHasChanged}: BucketListItemsProps) => {
 
     const handleEdit = (item: BucketListItemType) => {
         setBucketListItem(item);
         setModalOpen(prev => !prev);
+    }
+
+    const handleDelete = (item: BucketListItemType) => {
+        axios.delete(`api/bucket-lists/${item.id}`)
+            .then(() => {
+                setHasChanged((state: boolean) => !state);
+            })
+            .catch((error: AxiosError) => {
+                console.log(error)
+            });
     }
 
     return (
@@ -32,7 +43,7 @@ const BucketListItems = ({bucketList, setModalOpen, setBucketListItem}: BucketLi
                                 <Button variant="primary" className="btn-sm" onClick={() => handleEdit(item)}>
                                     Edit
                                 </Button>
-                                <Button variant="danger" className="btn-sm">
+                                <Button variant="danger" className="btn-sm" onClick={() => handleDelete(item)}>
                                     Remove
                                 </Button>
                             </div>
