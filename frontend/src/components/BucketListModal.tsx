@@ -21,17 +21,24 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
         axios[apiMethod](apiUrl, bucketListItem)
             .then(() => {
                 console.log(bucketListItem);
-                setBucketListItem(defaultBucketListItem);
                 setHasChanged((state: boolean) => !state);
             })
-            .catch((error: AxiosError) => console.log(error));
+            .catch((error: AxiosError) => console.log(error))
+            .finally(() => {
+                setBucketListItem(defaultBucketListItem);
+            });
 
         handleClose();
     }
 
+    const handleCancel = () => {
+        setBucketListItem(defaultBucketListItem);
+        handleClose()
+    }
+
     return (
         <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>Add a new destination</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
@@ -80,7 +87,7 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={() => handleCancel()}>
                         Cancel
                     </Button>
                     <Button variant="primary" type="submit">
