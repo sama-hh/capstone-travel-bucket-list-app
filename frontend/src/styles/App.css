@@ -43,3 +43,7 @@
 .form-checkbox {
     display: flex;
 }
+
+.dashboard-card {
+    min-height: 100px;
+}

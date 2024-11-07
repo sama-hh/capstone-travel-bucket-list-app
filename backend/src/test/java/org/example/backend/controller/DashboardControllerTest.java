@@ -30,21 +30,14 @@ class DashboardControllerTest {
     @Test
     @DirtiesContext
     void getTotalDestinations() throws Exception {
-        when(dashboardService.getTotalDestinations()).thenReturn(3L);
+        when(dashboardService.getTotalDestinations()).thenReturn(10L);
+        when(dashboardService.getVisitedDestinations()).thenReturn(3L);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/dashboard/total-destinations")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.total-destinations").value(3));
+                .andExpect(jsonPath("$.totalDestinations").value(10))
+                .andExpect(jsonPath("$.visitedDestinations").value(3));
     }
 
-    @Test
-    void getVisitedDestinations() throws Exception {
-        when(dashboardService.getVisitedDestinations()).thenReturn(3L);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/dashboard/visited-destinations")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.visited-destinations").value(3));
-    }
 }
