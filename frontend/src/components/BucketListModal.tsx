@@ -33,7 +33,7 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
 
     const handleCancel = () => {
         setBucketListItem(defaultBucketListItem);
-        handleClose()
+        handleClose();
     }
 
     return (
