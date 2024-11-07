@@ -1,6 +1,7 @@
 package org.example.backend.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.backend.dto.DestinationProgress;
 import org.example.backend.service.DashboardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +19,10 @@ public class DashboardController {
     private final DashboardService dashboardService;
 
     @GetMapping("/total-destinations")
-    public ResponseEntity<Map<String, Long>> getTotalDestinations() {
-        Map<String, Long> response = Map.of("total-destinations", dashboardService.getTotalDestinations());
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/visited-destinations")
-    public ResponseEntity<Map<String, Long>> getVisitedDestinations() {
-        Map<String, Long> response = Map.of("visited-destinations", dashboardService.getVisitedDestinations());
-        return ResponseEntity.ok(response);
+    public ResponseEntity<DestinationProgress> getDestinations() {
+        Long totalDestinations = dashboardService.getTotalDestinations();
+        Long visitedDestinations = dashboardService.getVisitedDestinations();
+        DestinationProgress summary = new DestinationProgress(totalDestinations, visitedDestinations);
+        return ResponseEntity.ok(summary);
     }
 }
