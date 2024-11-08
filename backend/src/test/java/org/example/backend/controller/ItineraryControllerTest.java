@@ -3,13 +3,10 @@ package org.example.backend.controller;
 import org.example.backend.model.Destination;
 import org.example.backend.model.Itinerary;
 import org.example.backend.repository.ItineraryRepository;
-import org.example.backend.service.IdService;
-import org.example.backend.service.ItineraryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,8 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -27,10 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ItineraryControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @Autowired
     private ItineraryRepository itineraryRepository;
-    @MockBean
-    private IdService idService;
 
     @Test
     @DirtiesContext
@@ -50,8 +43,7 @@ class ItineraryControllerTest {
                 now
         );
 
-        when(idService.randomId()).thenReturn("1");
-        when(itineraryRepository.save(itinerary)).thenReturn(itinerary);
+        itineraryRepository.save(itinerary);
 
         String requestJson = """
                         {
@@ -81,7 +73,7 @@ class ItineraryControllerTest {
                 .andDo(result -> {
                     System.out.println("Response content: " + result.getResponse().getContentAsString());
                 })
-                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("European Vacation"))
                 .andExpect(jsonPath("$.destinations[0].destinationName").value("Eiffel Tower"));
     }
