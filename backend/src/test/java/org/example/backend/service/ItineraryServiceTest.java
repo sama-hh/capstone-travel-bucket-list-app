@@ -2,11 +2,12 @@ package org.example.backend.service;
 
 import org.example.backend.model.Destination;
 import org.example.backend.model.Itinerary;
-import org.example.backend.repository.BucketListRepository;
 import org.example.backend.repository.ItineraryRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.time.*;
 import java.util.List;
@@ -16,39 +17,41 @@ import static org.mockito.Mockito.*;
 
 
 class ItineraryServiceTest {
-    private final ItineraryRepository repository = mock(ItineraryRepository.class);
-    private final IdService idService = mock(IdService.class);
-    private final Clock clock = mock(Clock.class);
-    private final ItineraryService service = new ItineraryService(repository, idService, clock);
+    @Mock
+    private ItineraryRepository itineraryRepository;
+
+    @Mock
+    private IdService idService;
+
+    @InjectMocks
+    private ItineraryService itineraryService;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void createItinerary() {
-        LocalDateTime fixedNow = LocalDateTime.of(2024, 10, 8, 12, 30);
-        Instant instant = fixedNow.atZone(ZoneId.systemDefault()).toInstant();
-        when(clock.instant()).thenReturn(instant);
-        when(clock.getZone()).thenReturn(ZoneId.systemDefault());
+        //GIVEN
+        Destination destinations1 = new Destination("1", "Eiffel Tower", null, null);
+        Itinerary itinerary = new Itinerary(null, "Trip to Paris", List.of(destinations1), LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(7), 1500.0, null, null);
+        String generatedId = "12345";
+        when(idService.randomId()).thenReturn(generatedId);
+        when(itineraryRepository.save(any(Itinerary.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Destination destinations1 = new Destination("1", "Eiffel Tower",
-                LocalDateTime.of(2024, 12, 8, 12, 30),
-                LocalDateTime.of(2024, 12, 9, 12, 30)
-        );
+        //WHEN
+        Itinerary result = itineraryService.createItinerary(itinerary);
 
-        Itinerary itinerary = new Itinerary("1", "European Vacation",
-                List.of(destinations1),
-                LocalDate.of(2024, 12, 1).atStartOfDay(),
-                LocalDate.of(2024, 12, 10).atTime(20, 0),
-                1000.0,
-                fixedNow,
-                fixedNow
-        );
-
-        when(idService.randomId()).thenReturn("1");
-        when(repository.save(itinerary)).thenReturn(itinerary);
-
-        Itinerary result = service.createItinerary(itinerary);
-
+        //THEN
         assertNotNull(result);
-        assertEquals("1", result.id());
-        verify(repository, times(1)).save(result);
+        assertEquals(generatedId, result.id());
+        assertEquals("Trip to Paris", result.name());
+        assertEquals(1500.0, result.estimatedCost());
+        assertNotNull(result.createdDate());
+        assertNotNull(result.lastModifiedDate());
+
+        verify(idService, times(1)).randomId();
+        verify(itineraryRepository, times(1)).save(any(Itinerary.class));
     }
 }
