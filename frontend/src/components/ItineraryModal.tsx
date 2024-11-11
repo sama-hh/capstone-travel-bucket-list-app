@@ -36,7 +36,7 @@ const ItineraryModal = ({show, handleClose, setHasChanged, itinerary, setItinera
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header>
-                <Modal.Title>{itinerary.id ? 'Edit a new itinerary' : 'Create a new itinerary'}</Modal.Title>
+                <Modal.Title>{itinerary.id ? 'Edit an itinerary' : 'Create a new itinerary'}</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>

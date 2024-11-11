@@ -44,7 +44,7 @@ const BucketListModal = ({
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header>
-                <Modal.Title>{bucketListItem.id ? 'Edit a new destination' : 'Create a new destination'}</Modal.Title>
+                <Modal.Title>{bucketListItem.id ? 'Edit a destination' : 'Create a new destination'}</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
