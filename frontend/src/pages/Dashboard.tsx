@@ -31,7 +31,7 @@ const Dashboard = () => {
     }, [destinationInfo])
 
     return (
-        <Container>
+        <Container className="custom-container">
                 <Row className="mt-3">
                     <DashboardCard loading={loading} title="Total Destinations" destinationCount={destinationInfo?.totalDestinations}/>
                     <DashboardCard loading={loading} title="Visited Destinations " destinationCount={destinationInfo?.visitedDestinations}/>
