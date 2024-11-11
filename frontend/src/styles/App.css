@@ -47,3 +47,7 @@
 .dashboard-card {
     min-height: 100px;
 }
+
+.logo {
+    width: 40px;
+}

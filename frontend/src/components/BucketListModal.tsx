@@ -2,14 +2,20 @@ import {ChangeEvent, FormEvent} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import axios, {AxiosError} from "axios";
 import {
-    BucketListItemStatus,
-    defaultBucketListItem,
-    ListModalProps
+    BucketListItemStatus, BucketListModalProps,
+    defaultBucketListItem
 } from "../types/BucketList.ts";
 
-const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketListItem}: ListModalProps) => {
-    const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setBucketListItem({...bucketListItem, status: event.target.value as BucketListItemStatus})
+const BucketListModal = ({
+                             show,
+                             handleClose,
+                             setHasChanged,
+                             bucketListItem,
+                             setBucketListItem
+                         }: BucketListModalProps) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setBucketListItem({...bucketListItem, [name]: value});
     };
 
     const handleSubmit = (e: FormEvent) => {
@@ -20,7 +26,6 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
 
         axios[apiMethod](apiUrl, bucketListItem)
             .then(() => {
-                console.log(bucketListItem);
                 setHasChanged((state: boolean) => !state);
             })
             .catch((error: AxiosError) => console.log(error))
@@ -39,27 +44,29 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header>
-                <Modal.Title>Add a new destination</Modal.Title>
+                <Modal.Title>{bucketListItem.id ? 'Edit a new destination' : 'Create a new destination'}</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group className="mb-3" controlId="formName">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
-                            required
                             type="text"
+                            name="name"
                             value={bucketListItem.name}
-                            onChange={(e) => setBucketListItem({...bucketListItem, name: e.target.value})}
+                            onChange={handleInputChange}
+                            required
                             autoFocus
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                    <Form.Group className="mb-3" controlId="formCountry">
                         <Form.Label>Country</Form.Label>
                         <Form.Control
-                            required
                             type="text"
+                            name="country"
                             value={bucketListItem.country}
-                            onChange={(e) => setBucketListItem({...bucketListItem, country: e.target.value})}
+                            onChange={handleInputChange}
+                            required
                         />
                     </Form.Group>
                     <div className="form-checkbox">
@@ -68,10 +75,10 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
                             type="radio"
                             id="not-visited"
                             label="Not visited"
-                            name="group1"
+                            name="status"
                             value={BucketListItemStatus.NOT_VISITED}
                             checked={bucketListItem.status === BucketListItemStatus.NOT_VISITED}
-                            onChange={handleStatusChange}
+                            onChange={handleInputChange}
                         />
                         <Form.Check
                             inline
@@ -79,10 +86,10 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
                             type="radio"
                             id="visited"
                             label="Visited"
-                            name="group1"
+                            name="status"
                             value={BucketListItemStatus.VISITED}
                             checked={bucketListItem.status === BucketListItemStatus.VISITED}
-                            onChange={handleStatusChange}
+                            onChange={handleInputChange}
                         />
                     </div>
                 </Modal.Body>
@@ -98,7 +105,6 @@ const ListModal = ({show, handleClose, setHasChanged, bucketListItem, setBucketL
 
         </Modal>
     )
-
 }
 
-export default ListModal;
+export default BucketListModal;

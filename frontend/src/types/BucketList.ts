@@ -25,7 +25,7 @@ export type BucketListItemsProps = {
     setHasChanged: (value: (prev: boolean) => boolean) => void;
 }
 
-export type ListModalProps = {
+export type BucketListModalProps = {
     show: boolean,
     handleClose: () => void,
     setHasChanged: (value: (prev: boolean) => boolean) => void;
