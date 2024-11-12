@@ -2,6 +2,7 @@ import {Button, Card, Col, Row} from "react-bootstrap";
 import axios, {AxiosError} from "axios";
 import {ItinerariesListProps, ItineraryType} from "../types/Itinerary.tsx";
 import {useNavigate} from "react-router-dom";
+import {dateFormat} from "./dateFormat.ts";
 
 const ItinerariesList = ({itineraries, setModalOpen, setItinerary, setHasChanged}: ItinerariesListProps) => {
     const navigate = useNavigate();
@@ -21,14 +22,6 @@ const ItinerariesList = ({itineraries, setModalOpen, setItinerary, setHasChanged
             });
     }
 
-    const formatDate = (timestamp: string) => {
-        return new Date(timestamp).toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        })
-    }
-
     const handleItinerary = (item: ItineraryType) => {
         navigate(`/itineraries/${item.id}`, {state: {item}});
     }
@@ -43,7 +36,7 @@ const ItinerariesList = ({itineraries, setModalOpen, setItinerary, setHasChanged
                                 {item.name}
                             </Card.Title>
                             <Card.Subtitle className="mb-2 text-muted text-start">
-                                From {formatDate(item.startDate)} to {formatDate(item.endDate)}
+                                From {dateFormat(item.startDate)} to {dateFormat(item.endDate)}
                             </Card.Subtitle>
                             <Card.Subtitle className="mb-2 text-muted text-start">
                                 Estimated cost: {item.estimatedCost}€
