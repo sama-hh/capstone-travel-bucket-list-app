@@ -1,5 +1,8 @@
 import {Dispatch, SetStateAction} from "react";
 
+export type DestinationProps = {
+    item: Destination
+}
 export type Destination = {
     destinationId: string,
     destinationName: string,
