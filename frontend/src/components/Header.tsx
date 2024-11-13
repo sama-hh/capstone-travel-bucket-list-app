@@ -1,11 +1,26 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import Logo from "../../public/travel.svg"
+import {defaultUsername, HeaderProps} from "../types/Header.ts";
+import axios, {AxiosError} from "axios";
 
-const Header = () => {
+const Header = ({username, setUsername}: HeaderProps) => {
+    const navigate = useNavigate();
+
+    function logout() {
+        axios.post("/api/auth/logout")
+            .then(() => {
+                setUsername(defaultUsername);
+                navigate("/login");
+            })
+            .catch((error: AxiosError) => {
+                console.log(error)
+            })
+    }
+
     return <>
         <Navbar className="mb-3 navbar">
             <Container className="w-100 custom-container py-2">
@@ -21,7 +36,12 @@ const Header = () => {
                         </Nav>
                     </div>
                     <div className="d-flex">
-                        <Button className="primary-button">Logout</Button>
+                        {username.id !== '' ?
+                            <div className="header-user">
+                                <span className="mx-2">Welcome, {username.username}</span>
+                                <Button className="primary-button" onClick={logout}>Logout</Button>
+                            </div> :
+                            <Button className="primary-button" onClick={() => navigate("/login")}>Log in</Button>}
                     </div>
                 </div>
             </Container>
