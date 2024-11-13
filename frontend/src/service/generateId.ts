@@ -1,3 +1,5 @@
 export const generateShortId = () => {
-    return Math.random().toString(36).substring(2, 8); // Generates a short 6-character ID
+    const array = new Uint8Array(6);
+    crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(36).padStart(2, '0')).join('').substring(0, 12);
 }
