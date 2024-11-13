@@ -17,7 +17,6 @@ const ItineraryModal = ({show, handleClose, setHasChanged, itinerary, setItinera
 
         axios[apiMethod](apiUrl, itinerary)
             .then(() => {
-                console.log(itinerary);
                 setHasChanged((state: boolean) => !state);
             })
             .catch((error: AxiosError) => console.log(error))

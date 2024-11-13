@@ -15,7 +15,6 @@ const Itinerary = () => {
         axios.get("/api/itineraries")
             .then(response => {
                 setItineraries(response.data);
-                console.log(response.data);
             })
             .catch((error: AxiosError) => {
                 console.log(error)

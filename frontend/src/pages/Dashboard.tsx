@@ -26,10 +26,6 @@ const Dashboard = () => {
         getDestinationsCount();
     }, [])
 
-    useEffect(() => {
-        console.log(destinationInfo);
-    }, [destinationInfo])
-
     return (
         <Container className="custom-container">
                 <Row className="mt-3">
