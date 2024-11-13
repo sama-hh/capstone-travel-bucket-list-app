@@ -55,3 +55,18 @@
 .card-name {
     cursor: pointer;
 }
+
+.destination-list {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.destination-list__info:first-child {
+    display: flex;
+}
+
+.custom-badge {
+    padding: 3px !important;
+    display: block !important;
+}

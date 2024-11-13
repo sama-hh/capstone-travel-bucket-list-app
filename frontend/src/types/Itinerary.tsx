@@ -45,3 +45,8 @@ export type ItineraryModalProps = {
     itinerary: ItineraryType,
     setItinerary: Dispatch<SetStateAction<ItineraryType>>
 }
+
+export type DestinationFormProps = {
+    item: ItineraryType,
+    setHasChanged: (value: (prev: boolean) => boolean) => void;
+}

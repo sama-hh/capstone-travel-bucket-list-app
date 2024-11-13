@@ -2,7 +2,7 @@ import {Button, Card, Col, Row} from "react-bootstrap";
 import axios, {AxiosError} from "axios";
 import {ItinerariesListProps, ItineraryType} from "../types/Itinerary.tsx";
 import {useNavigate} from "react-router-dom";
-import {dateFormat} from "./dateFormat.ts";
+import {dateFormat} from "../service/dateFormat.ts";
 
 const ItinerariesList = ({itineraries, setModalOpen, setItinerary, setHasChanged}: ItinerariesListProps) => {
     const navigate = useNavigate();
