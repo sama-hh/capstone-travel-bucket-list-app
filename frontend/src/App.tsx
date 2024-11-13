@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import BucketList from "./pages/BucketList.tsx";
 import Itinerary from "./pages/Itinerary.tsx";
 import ItineraryDetails from "./pages/ItineraryDetails.tsx";
+import Login from "./pages/Login.tsx";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/bucket-list" element={<BucketList/>}/>
                     <Route path="/itineraries" element={<Itinerary/>}/>
                     <Route path="/itineraries/:id" element={<ItineraryDetails/>}/>
+                    <Route path="/login" element={<Login/>}/>
                     <Route path="*" element={<h1>404 - Page Not Found</h1>} />
                 </Routes>
                 <Footer/>
