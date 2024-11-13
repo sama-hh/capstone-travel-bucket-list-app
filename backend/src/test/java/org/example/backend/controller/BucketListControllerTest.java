@@ -3,7 +3,6 @@ package org.example.backend.controller;
 import org.example.backend.model.BucketListItem;
 import org.example.backend.model.BucketListItemStatus;
 import org.example.backend.repository.BucketListRepository;
-import org.example.backend.service.BucketListService;
 import org.example.backend.service.IdService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
