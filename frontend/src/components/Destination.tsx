@@ -29,7 +29,7 @@ const Destination = ({item, setHasChanged}: DestinationFormProps) => {
                                 item.destinations.map((destination, index) => (
                                     <ListGroup.Item key={index} className="destination-list">
                                         <div className="destination-list__info">
-                                            <Badge bg="info" className="me-2 badge"/>
+                                            <Badge bg="info" className="me-2 custom-badge"/>
                                             <div>
                                                 <p>{destination.destinationName}</p>
                                                 <p>
