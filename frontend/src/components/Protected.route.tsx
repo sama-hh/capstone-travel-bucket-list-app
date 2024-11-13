@@ -6,7 +6,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({username}: ProtectedRouteProps) => {
-    if (!username) {
+    if (!username.id) {
         return <Navigate to="/login" replace/>;
     }
     return <Outlet/>;
