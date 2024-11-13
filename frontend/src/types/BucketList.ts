@@ -32,3 +32,4 @@ export type BucketListModalProps = {
     bucketListItem: BucketListItemType,
     setBucketListItem: Dispatch<SetStateAction<BucketListItemType>>
 }
+
