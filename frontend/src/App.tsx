@@ -36,10 +36,10 @@ function App() {
             <div className="d-flex flex-column min-vh-100">
                 <Header username={username} setUsername={setUsername}/>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace/>}/>
                     <Route path="/login" element={<Login/>}/>
 
                     <Route element={<ProtectedRoute username={username}/>}>
+                        <Route path="/" element={<Navigate to="/dashboard" replace/>}/>
                         <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/bucket-list" element={<BucketList/>}/>
                         <Route path="/itineraries" element={<Itinerary/>}/>
