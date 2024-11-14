@@ -38,4 +38,15 @@ class DashboardControllerTest {
                 .andExpect(jsonPath("$.visitedDestinations").value(3));
     }
 
+    @Test
+    @DirtiesContext
+    void getItineraries() throws Exception {
+        when(dashboardService.getItineraries()).thenReturn(10L);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/dashboard/total-itineraries")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalItineraries").value(10));
+
+    }
 }

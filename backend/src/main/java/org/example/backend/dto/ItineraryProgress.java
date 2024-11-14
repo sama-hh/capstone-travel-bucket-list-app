@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DestinationProgress {
-    private Long totalDestinations;
-    private Long visitedDestinations;
+public class ItineraryProgress {
+    private Long totalItineraries;
 }
