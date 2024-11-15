@@ -29,7 +29,7 @@ const Itinerary = () => {
         <>
             <Container className="custom-container">
                 <div className="mt-4 bucket-list_header">
-                    <h4>Itineraries</h4>
+                    <h4>Travel plans</h4>
                     <Button onClick={() => setModalOpen(prev => !prev)}>Add</Button>
                 </div>
                 <ItinerariesList itineraries={itineraries} setModalOpen={setModalOpen}

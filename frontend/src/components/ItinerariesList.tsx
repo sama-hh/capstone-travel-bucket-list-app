@@ -23,7 +23,7 @@ const ItinerariesList = ({itineraries, setModalOpen, setItinerary, setHasChanged
     }
 
     const handleItinerary = (item: ItineraryType) => {
-        navigate(`/itineraries/${item.id}`, {state: {item}});
+        navigate(`/travel-plan/${item.id}`, {state: {item}});
     }
 
     return (
