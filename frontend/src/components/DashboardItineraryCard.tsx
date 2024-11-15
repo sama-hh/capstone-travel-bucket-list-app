@@ -11,7 +11,7 @@ const DashboardItineraryCard = ({itinerary, loading}: DashboardItineraryCardProp
                 <Card className="dashboard-card shadow-sm">
                     <Card.Body>
                         <Card.Title className="text-start fw-bold">
-                            Last created Itinerary
+                            Last added Travel Plan
                         </Card.Title>
                         <Card.Text className="text-start">{itinerary?.name}</Card.Text>
                     </Card.Body>

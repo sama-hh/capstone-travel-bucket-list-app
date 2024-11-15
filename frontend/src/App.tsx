@@ -42,8 +42,8 @@ function App() {
                         <Route path="/" element={<Navigate to="/dashboard" replace/>}/>
                         <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/bucket-list" element={<BucketList/>}/>
-                        <Route path="/itineraries" element={<Itinerary/>}/>
-                        <Route path="/itineraries/:id" element={<ItineraryDetails/>}/>
+                        <Route path="/travel-plan" element={<Itinerary/>}/>
+                        <Route path="/travel-plan/:id" element={<ItineraryDetails/>}/>
                     </Route>
 
                 </Routes>
