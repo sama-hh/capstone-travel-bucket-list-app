@@ -26,9 +26,9 @@ const Header = ({username, setUsername}: HeaderProps) => {
             <Container className="w-100 custom-container py-2">
                 <div className="header-container">
                     <div className="header-container__nav">
-                        <Navbar.Brand href="/dashboard" className="p-0">
+                        <Nav.Link as={Link} to="/dashboard">
                             <img src={Logo} alt="" className="logo"/>
-                        </Navbar.Brand>
+                        </Nav.Link>
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/dashboard">Home</Nav.Link>
                             <Nav.Link as={Link} to="/bucket-list">Travel Wishlist</Nav.Link>
