@@ -2,7 +2,7 @@ import {Card, Col} from "react-bootstrap";
 import {DashboardCardProps} from "../types/Dashboard.ts";
 import Skeleton from 'react-loading-skeleton'
 
-const DashboardCard = ({title, destinationCount, loading}: DashboardCardProps) => {
+const DashboardCard = ({title, statistics, loading}: DashboardCardProps) => {
     return (
         <Col sm={12} md={6} lg={6} className="mb-4">
             {loading ? (
@@ -13,7 +13,7 @@ const DashboardCard = ({title, destinationCount, loading}: DashboardCardProps) =
                         <Card.Title className="text-start fw-bold">
                             {title}
                         </Card.Title>
-                        <Card.Text className="text-start">{destinationCount}</Card.Text>
+                        <Card.Text className="text-start">{statistics}</Card.Text>
                     </Card.Body>
                 </Card>)}
         </Col>

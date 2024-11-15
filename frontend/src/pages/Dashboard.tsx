@@ -7,28 +7,23 @@ import DashboardItineraryCard from "../components/DashboardItineraryCard.tsx";
 
 const Dashboard = () => {
     const [data, setData] = useState<DashboardType>({
-        destinationsInfo: null,
-        itinerariesInfo: null,
-        loading: true,
+        totalDestinations: 0,
+        visitedDestinations: 0,
+        totalItineraries: 0,
+        lastCreatedItinerary: null,
     });
+    const [loading, setLoading] = useState(false)
 
     const fetchData = () => {
-        setData(prev => ({...prev, loading: true}));
+        setLoading(true);
 
-        Promise.all([
-            axios.get("/api/dashboard/total-destinations"),
-            axios.get("/api/dashboard/total-itineraries")
-        ])
-            .then(([destinationsResponse, itinerariesResponse]) => {
-                setData({
-                    destinationsInfo: destinationsResponse.data,
-                    itinerariesInfo: itinerariesResponse.data,
-                    loading: false,
-                });
+        axios.get("/api/dashboard/statistics")
+            .then((response) => {
+                setData(response.data);
+                setLoading(false);
             })
             .catch((error: AxiosError) => {
                 console.error(error);
-                setData(prev => ({...prev, loading: false}));
             });
     }
 
@@ -39,13 +34,15 @@ const Dashboard = () => {
     return (
         <Container className="custom-container">
             <Row className="mt-3">
-                <DashboardCard loading={data.loading} title="Total Destinations"
-                               destinationCount={data.destinationsInfo?.totalDestinations}/>
-                <DashboardCard loading={data.loading} title="Visited Destinations"
-                               destinationCount={data.destinationsInfo?.visitedDestinations}/>
+                <DashboardCard loading={loading} title="Total Destinations"
+                               statistics={data.totalDestinations}/>
+                <DashboardCard loading={loading} title="Visited Destinations"
+                               statistics={data.visitedDestinations}/>
             </Row>
             <Row>
-                <DashboardItineraryCard loading={data.loading} itinerariesCount={data.itinerariesInfo}/>
+                <DashboardCard loading={loading} title="Total Itineraries"
+                               statistics={data.totalItineraries}/>
+                <DashboardItineraryCard loading={loading} itinerary={data.lastCreatedItinerary} />
             </Row>
         </Container>
     );

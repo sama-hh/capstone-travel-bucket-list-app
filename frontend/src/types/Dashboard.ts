@@ -1,25 +1,19 @@
-export type Destinations = {
-    totalDestinations: number,
-    visitedDestinations: number,
-}
-
-export type Itineraries = {
-    totalItineraries: number,
-}
+import {ItineraryType} from "./Itinerary.tsx";
 
 export type DashboardCardProps = {
     title: string,
-    destinationCount?: number,
+    statistics?: number,
     loading: boolean
 }
 
 export type DashboardItineraryCardProps = {
-    itinerariesCount?: Itineraries | null,
+    itinerary?: ItineraryType | null,
     loading: boolean
 }
 
 export type DashboardType = {
-    destinationsInfo: Destinations | null;
-    itinerariesInfo: Itineraries | null;
-    loading: boolean;
+    totalDestinations: number,
+    visitedDestinations: number,
+    totalItineraries: number
+    lastCreatedItinerary: ItineraryType | null,
 }

@@ -1,8 +1,8 @@
-import {DashboardItineraryCardProps} from "../types/Dashboard.ts";
-import Skeleton from "react-loading-skeleton";
 import {Card, Col} from "react-bootstrap";
+import {DashboardItineraryCardProps} from "../types/Dashboard.ts";
+import Skeleton from 'react-loading-skeleton'
 
-const DashboardItineraryCard = ({itinerariesCount, loading}: DashboardItineraryCardProps) => {
+const DashboardItineraryCard = ({itinerary, loading}: DashboardItineraryCardProps) => {
     return (
         <Col sm={12} md={6} lg={6} className="mb-4">
             {loading ? (
@@ -11,9 +11,9 @@ const DashboardItineraryCard = ({itinerariesCount, loading}: DashboardItineraryC
                 <Card className="dashboard-card shadow-sm">
                     <Card.Body>
                         <Card.Title className="text-start fw-bold">
-                            Total Itineraries
+                            Last created Itinerary
                         </Card.Title>
-                        <Card.Text className="text-start">{itinerariesCount?.totalItineraries}</Card.Text>
+                        <Card.Text className="text-start">{itinerary?.name}</Card.Text>
                     </Card.Body>
                 </Card>)}
         </Col>
