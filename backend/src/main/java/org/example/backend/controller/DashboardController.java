@@ -1,16 +1,13 @@
 package org.example.backend.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.backend.dto.DestinationProgress;
+import org.example.backend.dto.Dashboard;
+import org.example.backend.model.Itinerary;
 import org.example.backend.service.DashboardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -18,11 +15,14 @@ import java.util.Map;
 public class DashboardController {
     private final DashboardService dashboardService;
 
-    @GetMapping("/total-destinations")
-    public ResponseEntity<DestinationProgress> getDestinations() {
+    @GetMapping("/statistics")
+    public ResponseEntity<Dashboard> getDestinations() {
         Long totalDestinations = dashboardService.getTotalDestinations();
         Long visitedDestinations = dashboardService.getVisitedDestinations();
-        DestinationProgress summary = new DestinationProgress(totalDestinations, visitedDestinations);
+        Long totalItineraries = dashboardService.getItineraries();
+        Itinerary lastCreatedItinerary = dashboardService.getLastCreatedItinerary();
+        Dashboard summary = new Dashboard(totalDestinations, visitedDestinations, totalItineraries, lastCreatedItinerary);
         return ResponseEntity.ok(summary);
     }
+
 }
