@@ -3,6 +3,11 @@ import {DashboardItineraryCardProps} from "../types/Dashboard.ts";
 import Skeleton from 'react-loading-skeleton'
 
 const DashboardItineraryCard = ({itinerary, loading}: DashboardItineraryCardProps) => {
+    const getItinerary = () => {
+        if (itinerary?.id == "") {
+            return "No travels plans"
+        } else return itinerary?.id
+    }
     return (
         <Col sm={12} md={6} lg={6} className="mb-4">
             {loading ? (
@@ -13,7 +18,7 @@ const DashboardItineraryCard = ({itinerary, loading}: DashboardItineraryCardProp
                         <Card.Title className="text-start fw-bold">
                             Last Added Travel Plan
                         </Card.Title>
-                        <Card.Text className="text-start">{itinerary?.name}</Card.Text>
+                        <Card.Text className="text-start">{getItinerary()}</Card.Text>
                     </Card.Body>
                 </Card>)}
         </Col>
