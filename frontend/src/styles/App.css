@@ -87,3 +87,11 @@
     color: white;
 }
 
+.active {
+    font-weight: bold !important;
+    color: #007bff !important;
+    border: 1px solid white !important;
+    border-radius: 50px !important;
+    padding: 6px 15px !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
