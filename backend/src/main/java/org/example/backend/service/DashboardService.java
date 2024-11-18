@@ -7,7 +7,6 @@ import org.example.backend.repository.BucketListRepository;
 import org.example.backend.repository.ItineraryRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -30,7 +29,9 @@ public class DashboardService {
 
     public Itinerary getLastCreatedItinerary() {
         Optional<Itinerary> latestItinerary = itineraryRepository.findFirstByOrderByCreatedDateDesc();
-        return latestItinerary.orElseThrow(() -> new NoSuchElementException("itinerary not found"));
+        return latestItinerary.orElseGet(() -> {
+            return new Itinerary("", "", null, null, null, 0, null, null);
+        });
     }
 
 }
