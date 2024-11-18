@@ -33,16 +33,19 @@ const Dashboard = () => {
 
     return (
         <Container className="custom-container">
+            <div className="mt-4 text-start">
+                <h4>Travel Progress Overview</h4>
+            </div>
             <Row className="mt-3">
-                <DashboardCard loading={loading} title="Total Destinations"
+                <DashboardCard loading={loading} title="Total Places to Visit"
                                statistics={data.totalDestinations}/>
-                <DashboardCard loading={loading} title="Visited Destinations"
+                <DashboardCard loading={loading} title="Visited Places Overview"
                                statistics={data.visitedDestinations}/>
             </Row>
             <Row>
-                <DashboardCard loading={loading} title="Total Itineraries"
+                <DashboardCard loading={loading} title="Total Travel Plans"
                                statistics={data.totalItineraries}/>
-                <DashboardItineraryCard loading={loading} itinerary={data.lastCreatedItinerary} />
+                <DashboardItineraryCard loading={loading} itinerary={data.lastCreatedItinerary}/>
             </Row>
         </Container>
     );
