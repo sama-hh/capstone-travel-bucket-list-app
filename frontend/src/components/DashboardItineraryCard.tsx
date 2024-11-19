@@ -6,7 +6,7 @@ const DashboardItineraryCard = ({itinerary, loading}: DashboardItineraryCardProp
     const getItinerary = () => {
         if (itinerary?.id == "") {
             return "No travels plans"
-        } else return itinerary?.id
+        } else return itinerary?.name
     }
     return (
         <Col sm={12} md={6} lg={6} className="mb-4">
