@@ -25,7 +25,6 @@ public class ItineraryController {
     @PostMapping
     public ResponseEntity<Itinerary> createItinerary(@RequestBody CreateItineraryRequest request) {
         Itinerary createdItinerary = itineraryService.createItinerary(request.toModel());
-        System.out.println("Created Itinerary: " + createdItinerary);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdItinerary);
     }
 

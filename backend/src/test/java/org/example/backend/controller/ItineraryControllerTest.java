@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "user")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class ItineraryControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -30,7 +31,6 @@ class ItineraryControllerTest {
     private ItineraryRepository itineraryRepository;
 
     @Test
-    @DirtiesContext
     void createItinerary_shouldReturnCreatedItinerary() throws Exception {
         Destination destinations1 = new Destination("123", "Eiffel Tower",
                 LocalDateTime.of(2024, 12, 8, 12, 30),
@@ -80,7 +80,6 @@ class ItineraryControllerTest {
     }
 
     @Test
-    @DirtiesContext
     void getAllItineraries_shouldReturnAllItineraries() throws Exception {
         Destination destinations1 = new Destination("123", "Eiffel Tower", null, null);
         Itinerary itinerary = new Itinerary("1", "European Vacation", List.of(destinations1), null, null, 1000.0, null, null);
@@ -146,7 +145,6 @@ class ItineraryControllerTest {
     }
 
     @Test
-    @DirtiesContext
     void getItineraryById_shouldReturnNoSuchElementException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/itineraries/2"))
                 .andExpect(status().isNotFound())
