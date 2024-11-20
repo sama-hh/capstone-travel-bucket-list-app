@@ -35,7 +35,7 @@ const Header = ({username, setUsername}: HeaderProps) => {
                         <Nav className="me-auto mx-3">
                             <Nav.Link as={Link} to="/dashboard" className={isActive('/dashboard') ? 'active' : ''}>Home</Nav.Link>
                             <Nav.Link as={Link} to="/bucket-list" className={isActive('/bucket-list') ? 'active' : ''}>Travel Wishlist</Nav.Link>
-                            <Nav.Link as={Link} to="/travel-plan" className={isActive('/travel-plan') ? 'active' : ''}>Travel Plan</Nav.Link>
+                            <Nav.Link as={Link} to="/travel-plan" className={isActive('/travel-plan') ? 'active' : ''}>Travel Plans</Nav.Link>
                         </Nav>
                     </div>
                     <div className="d-flex">
