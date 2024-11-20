@@ -26,7 +26,6 @@ public class ItineraryService {
         LocalDateTime now = LocalDateTime.now();
 
         Itinerary newItinerary = new Itinerary(itineraryId, itinerary.name(), itinerary.destinations(), itinerary.startDate(), itinerary.endDate(), itinerary.estimatedCost(), now, now);
-        System.out.println("New Itinerary in Service: " + newItinerary);
         return itineraryRepository.save(newItinerary);
     }
 

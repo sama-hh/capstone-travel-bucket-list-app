@@ -33,3 +33,9 @@ export type BucketListModalProps = {
     setBucketListItem: Dispatch<SetStateAction<BucketListItemType>>
 }
 
+export type BucketListItemCardProps = {
+    item: BucketListItemType,
+    onEdit: (item: BucketListItemType) => void,
+    onDelete: (item: BucketListItemType) => void
+}
+
